@@ -126,3 +126,13 @@ export interface Notification {
   read_at: string | null;
   created_at: string;
 }
+
+export interface Message {
+  id: string;
+  match_id: string;
+  sender_id: string;
+  body: string;
+  sent_at: string;
+  is_system_relayed: boolean;
+  read_at: string | null;
+}

@@ -7,6 +7,7 @@ import { ReportFormPage } from '@/pages/ReportFormPage';
 import { BrowsePage, ReportDetailPage } from '@/pages/BrowsePage';
 import { MyReportsPage } from '@/pages/MyReportsPage';
 import { VerifyPage } from '@/pages/VerifyPage';
+import { MessagesPage } from '@/pages/MessagesPage';
 import type { ReportType } from '@/lib/types';
 
 function Routes() {
@@ -39,6 +40,9 @@ function Routes() {
     case '/my-reports':
       page = user ? <MyReportsPage /> : <AuthPage mode="login" />;
       break;
+    case '/messages':
+      page = user ? <MessagesPage /> : <AuthPage mode="login" />;
+      break;
     case '/report/lost':
       page = user ? <ReportFormPage reportType="lost" /> : <AuthPage mode="login" />;
       break;
@@ -52,6 +56,8 @@ function Routes() {
       } else if (cleanPath.startsWith('/verify/')) {
         const id = cleanPath.split('/').pop() ?? '';
         page = user ? <VerifyPage sessionId={id} /> : <AuthPage mode="login" />;
+      } else if (cleanPath.startsWith('/messages/')) {
+        page = user ? <MessagesPage /> : <AuthPage mode="login" />;
       } else {
         page = <LandingPage />;
       }

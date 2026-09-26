@@ -1,7 +1,7 @@
 import { Link, useRouter } from '@/lib/router';
 import { useAuth } from '@/lib/auth';
 import { supabase } from '@/lib/supabase';
-import { LogOut, Plus, LayoutGrid, Home, Menu, X, Bell, type LucideProps } from 'lucide-react';
+import { LogOut, Plus, LayoutGrid, Home, Menu, X, Bell, MessageSquare, type LucideProps } from 'lucide-react';
 import { useState, useEffect, type ReactNode, type ComponentType } from 'react';
 import type { Notification } from '@/lib/types';
 
@@ -133,6 +133,7 @@ export function Navbar() {
             <nav className="hidden md:flex items-center gap-1">
               {navLink('/browse', 'Browse', <LayoutGrid className="h-4 w-4" />)}
               {user && navLink('/my-reports', 'My Reports', <LayoutGrid className="h-4 w-4" />)}
+              {user && navLink('/messages', 'Messages', <MessageSquare className="h-4 w-4" />)}
               {user && navLink('/report/lost', 'Report Lost', <Plus className="h-4 w-4" />)}
               {user && navLink('/report/found', 'Report Found', <Plus className="h-4 w-4" />)}
             </nav>
@@ -175,6 +176,7 @@ export function Navbar() {
           <div className="md:hidden border-t border-gray-100 py-3 space-y-1">
             {navLink('/browse', 'Browse', <LayoutGrid className="h-4 w-4" />)}
             {user && navLink('/my-reports', 'My Reports', <LayoutGrid className="h-4 w-4" />)}
+            {user && navLink('/messages', 'Messages', <MessageSquare className="h-4 w-4" />)}
             {user && navLink('/report/lost', 'Report Lost', <Plus className="h-4 w-4" />)}
             {user && navLink('/report/found', 'Report Found', <Plus className="h-4 w-4" />)}
             <div className="pt-2 border-t border-gray-100">
