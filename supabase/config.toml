@@ -1,0 +1,5 @@
+[functions.match-engine]
+verify_jwt = false
+
+[functions.verify-match]
+verify_jwt = false
