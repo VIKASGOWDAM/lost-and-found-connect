@@ -136,3 +136,37 @@ export interface Message {
   is_system_relayed: boolean;
   read_at: string | null;
 }
+
+export type HandoverMethod = 'in_person' | 'org_desk';
+export type HandoverStatus = 'proposed' | 'scheduled' | 'completed' | 'disputed';
+
+export interface HandoverView {
+  id: string;
+  match_id: string;
+  method: HandoverMethod;
+  proposed_by: string;
+  scheduled_at: string | null;
+  location_label: string | null;
+  location_exact: { x: number; y: number } | null;
+  location_reveal_at: string | null;
+  status: HandoverStatus;
+  confirmed_by_lost: boolean;
+  confirmed_by_found: boolean;
+  completed_at: string | null;
+  created_at: string;
+  lost_report_id: string;
+  found_report_id: string;
+  lost_reporter_id: string;
+  found_reporter_id: string;
+  viewer_role: 'lost_reporter' | 'found_reporter' | null;
+}
+
+export interface Rating {
+  id: string;
+  handover_id: string;
+  rater_id: string;
+  ratee_id: string;
+  score: number;
+  comment: string | null;
+  created_at: string;
+}

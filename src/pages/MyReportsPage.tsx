@@ -5,7 +5,8 @@ import { useRouter } from '@/lib/router';
 import type { Report, ReportPublicAttribute, ReportPrivateAttribute, ReportMedia, Match, Category } from '@/lib/types';
 import { getCategoryIcon } from '@/lib/categoryIcons';
 import { StatusBadge, TypeBadge } from '@/components/Badges';
-import { ChevronLeft, ChevronRight, MapPin, Calendar, Eye, Lock, Package, Plus, Sparkles, Check, X, ShieldCheck } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Calendar, Eye, Lock, Package, Plus, Sparkles, Check, X, ShieldCheck, MessageSquare } from 'lucide-react';
+import { HandoverPanel } from '@/components/HandoverPanel';
 
 interface MatchWithOtherReport extends Match {
   otherReport: Report;
@@ -435,24 +436,42 @@ export function MyReportsPage() {
 
                                 {/* Actions */}
                                 {match.status === 'confirmed_pending_verification' || match.status === 'verified' ? (
-                                  <div className="flex items-center gap-2 pt-1">
-                                    <button
-                                      onClick={async () => {
-                                        // Look up existing verification session for this match
-                                        const { data: existingSession } = await supabase
-                                          .from('verification_sessions')
-                                          .select('id')
-                                          .eq('match_id', match.id)
-                                          .maybeSingle();
-                                        if (existingSession) {
-                                          navigate(`/verify/${existingSession.id}`);
-                                        }
-                                      }}
-                                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 transition-colors"
-                                    >
-                                      <ShieldCheck className="h-4 w-4" />
-                                      {match.status === 'verified' ? 'View verification result' : 'Go to verification'}
-                                    </button>
+                                  <div className="space-y-3 pt-1">
+                                    <div className="flex items-center gap-2">
+                                      <button
+                                        onClick={async () => {
+                                          // Look up existing verification session for this match
+                                          const { data: existingSession } = await supabase
+                                            .from('verification_sessions')
+                                            .select('id')
+                                            .eq('match_id', match.id)
+                                            .maybeSingle();
+                                          if (existingSession) {
+                                            navigate(`/verify/${existingSession.id}`);
+                                          }
+                                        }}
+                                        className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 transition-colors"
+                                      >
+                                        <ShieldCheck className="h-4 w-4" />
+                                        {match.status === 'verified' ? 'View verification result' : 'Go to verification'}
+                                      </button>
+                                      {match.status === 'verified' && (
+                                        <button
+                                          onClick={() => navigate(`/messages/${match.id}`)}
+                                          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors"
+                                        >
+                                          <MessageSquare className="h-4 w-4" />
+                                          Message
+                                        </button>
+                                      )}
+                                    </div>
+                                    {match.status === 'verified' && (
+                                      <HandoverPanel
+                                        matchId={match.id}
+                                        otherLabel={match.otherReport.type === 'lost' ? 'Lost item reporter' : 'Item finder'}
+                                        isVerified={true}
+                                      />
+                                    )}
                                   </div>
                                 ) : (
                                   <div className="flex gap-2 pt-1">
